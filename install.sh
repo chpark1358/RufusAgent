@@ -6,9 +6,9 @@ codex_home="${CODEX_HOME:-$HOME/.codex}"
 skills_dir="$codex_home/skills"
 
 mkdir -p "$skills_dir"
-cp -R "$repo_root/sonol-multi-agent" "$skills_dir/"
-cp -R "$repo_root/sonol-agent-runtime" "$skills_dir/"
+cp -R "$repo_root/rufus-agent" "$skills_dir/"
+cp -R "$repo_root/rufus-agent-runtime" "$skills_dir/"
 
-node "$skills_dir/sonol-multi-agent/scripts/portable-smoke-test.mjs"
+node "$skills_dir/rufus-agent/scripts/portable-smoke-test.mjs"
 
-printf 'Installed Sonol skills to %s\n' "$skills_dir"
+printf 'Installed RufusAgent skills to %s\n' "$skills_dir"
