@@ -70,6 +70,17 @@ function normalizeExecutionClass(agent) {
   return legacyMap[String(agent?.role ?? "").trim()] ?? "general";
 }
 
+const REASONING_RANK = {
+  low: 0,
+  medium: 1,
+  high: 2,
+  xhigh: 3
+};
+
+const HIGH_JUDGMENT_CLASSES = new Set(["lead", "planner", "reviewer"]);
+const GPT55_BASELINE_CLASSES = new Set(["lead", "planner", "research", "implementer", "reviewer", "refactor"]);
+const MINI_ALLOWED_DEFAULT_CLASSES = new Set(["verifier", "docs", "ops", "general"]);
+
 function isMainAgent(agent) {
   return normalizeExecutionClass(agent) === "lead" || agent?.role === "Main";
 }
@@ -276,6 +287,7 @@ export function validatePlan(plan) {
 
   const agentIdSet = new Set(agentIds);
   for (const agent of agents) {
+    const executionClass = normalizeExecutionClass(agent);
     const providerAgentType = String(agent.provider_agent_type ?? agent.codex_agent_type ?? "").trim();
     if (!providerAgentType) {
       pushIssue(errors, "error", "provider_agent_type_missing", "모든 역할에는 provider_agent_type 이 필요합니다.", {
@@ -286,6 +298,34 @@ export function validatePlan(plan) {
     if (!String(agent.purpose ?? "").trim()) {
       pushIssue(errors, "error", "agent_purpose_missing", "모든 역할에는 목적 설명이 필요합니다.", {
         agent_id: agent.agent_id
+      });
+    }
+
+    const model = String(agent.model ?? "").trim();
+    const reasoningEffort = String(agent.model_reasoning_effort ?? "").trim();
+    if (model === "gpt-5.4") {
+      pushIssue(warnings, "warning", "legacy_full_model", "현재 RufusAgent 기본 품질 기준은 gpt-5.5 입니다. 중요한 판단을 맡는 역할은 gpt-5.5로 올리는 것이 좋습니다.", {
+        agent_id: agent.agent_id,
+        execution_class: executionClass,
+        model
+      });
+    }
+
+    if (GPT55_BASELINE_CLASSES.has(executionClass) && model.endsWith("-mini") && !MINI_ALLOWED_DEFAULT_CLASSES.has(executionClass)) {
+      pushIssue(warnings, "warning", "mini_model_for_high_judgment_role", "이 역할은 판단 또는 구현 책임이 커서 기본적으로 gpt-5.5가 더 적절합니다.", {
+        agent_id: agent.agent_id,
+        execution_class: executionClass,
+        model
+      });
+    }
+
+    const minimumReasoning = HIGH_JUDGMENT_CLASSES.has(executionClass) ? "high" : "medium";
+    if ((REASONING_RANK[reasoningEffort] ?? -1) < REASONING_RANK[minimumReasoning]) {
+      pushIssue(warnings, "warning", "reasoning_effort_below_recommended", "역할의 판단 난이도에 비해 reasoning effort가 낮습니다. 일반 구현은 medium, 계획/리뷰/최종 통합은 high를 권장합니다.", {
+        agent_id: agent.agent_id,
+        execution_class: executionClass,
+        current_reasoning_effort: reasoningEffort,
+        recommended_minimum: minimumReasoning
       });
     }
 

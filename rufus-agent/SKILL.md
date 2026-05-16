@@ -194,6 +194,12 @@ Interpretation rules:
   invariant
 - effective sub-agent count must stay within RufusAgent policy and the active
   adapter's thread/depth limits
+- use `references/agent-selection.md` as the model and reasoning authority:
+  `gpt-5.5` is the default quality baseline for judgment-heavy roles, while
+  `gpt-5.4-mini` is reserved for bounded low-risk support roles
+- use `medium` for normal bounded implementation or verification, `high` for
+  planning, review, complex debugging, risky edits, and final integration, and
+  `xhigh` only for exceptional migration or repeated-failure cases
 
 ## Communication Model
 

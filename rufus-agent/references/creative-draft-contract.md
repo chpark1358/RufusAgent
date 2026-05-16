@@ -55,6 +55,11 @@ Each item in `subagents` must contain these canonical fields:
 - `operational_constraints`
 - `depends_on`
 
+Choose `model` and `model_reasoning_effort` from the policy in
+`references/agent-selection.md`. The normal baseline is `gpt-5.5` with
+`medium`; use `high` for planning, review, complex debugging, risky edits, and
+final integration. Use `gpt-5.4-mini` only for bounded low-risk support roles.
+
 ## Important distinction
 
 The persisted normalized plan and run layers later use fields such as

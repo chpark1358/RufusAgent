@@ -41585,7 +41585,7 @@ function badgeForPlan(plan, run) {
   return { label: statusLabels.running, color: runColor(run.status) };
 }
 var MODEL_OPTIONS = [
-  "gpt-5.4",
+  "gpt-5.5",
   "gpt-5.4-mini",
   "gpt-5.3-codex",
   "gpt-5.3-codex-spark",
@@ -41607,7 +41607,8 @@ function defaultAgentTemplate(executionClass, sequence, preferredLanguage) {
   const roleLabel = defaultRoleLabelForClass(executionClass, sequence);
   const role = executionClass === "lead" ? "Main" : roleLabel;
   const lower = role.toLowerCase().replace(/[^a-z0-9]+/g, "_");
-  const strongerRoles = /* @__PURE__ */ new Set(["lead", "planner", "research", "reviewer"]);
+  const qualityRoles = /* @__PURE__ */ new Set(["lead", "planner", "research", "implementer", "reviewer", "refactor"]);
+  const highReasoningRoles = /* @__PURE__ */ new Set(["lead", "planner", "reviewer"]);
   return {
     agent_id: `agent_${lower}_${sequence}`,
     role,
@@ -41625,8 +41626,8 @@ function defaultAgentTemplate(executionClass, sequence, preferredLanguage) {
     custom_config_file: null,
     purpose: defaultRolePurpose(executionClass),
     developer_instructions: defaultRoleInstructions(executionClass),
-    model: strongerRoles.has(executionClass) ? "gpt-5.4" : "gpt-5.4-mini",
-    model_reasoning_effort: strongerRoles.has(executionClass) ? "high" : "medium",
+    model: qualityRoles.has(executionClass) ? "gpt-5.5" : "gpt-5.4-mini",
+    model_reasoning_effort: highReasoningRoles.has(executionClass) ? "high" : "medium",
     sandbox_mode: roleDefaultSandboxMode(executionClass),
     mcp_servers: [],
     skills_config: ["rufus-agent-runtime"],

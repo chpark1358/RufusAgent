@@ -3,10 +3,10 @@
   "preferred_language": "ko",
   "single_or_multi": "multi",
   "multi_agent_beneficial": true,
-  "recommendation_summary": "조사, 구현, 검증이 분리되어 멀티 에이전트 구성이 적합합니다.",
+  "recommendation_summary": "조사, 구현, 검증이 분리되어 미니 에이전트 구성에 적합합니다.",
   "recommendation_reasons": [
-    "게임 종류 조사와 실제 구현의 책임이 분리됩니다.",
-    "검증 트랙이 구현 결과를 독립적으로 점검할 수 있습니다."
+    "게임 종류 조사와 실제 구현의 책임을 분리합니다.",
+    "검증 트랙이 구현 결과를 독립적으로 평가할 수 있습니다."
   ],
   "subagents": [
     {
@@ -17,8 +17,8 @@
       "task_title": "게임 조사 및 규칙 확정",
       "selection_rationale": "구현 전에 게임 유형과 핵심 규칙을 확정해야 합니다.",
       "provider_agent_type": "explorer",
-      "developer_instructions": "후보 게임을 비교하고 최종 선정안과 핵심 규칙을 .rufusagent/game-spec.md에 정리하세요.",
-      "model": "gpt-5.4-mini",
+      "developer_instructions": "후보 게임을 비교하고 최종 선택한 콘셉트와 핵심 규칙을 .rufusagent/game-spec.md에 정리하세요.",
+      "model": "gpt-5.5",
       "model_reasoning_effort": "medium",
       "sandbox_mode": "read-only",
       "mcp_servers": [],
@@ -50,8 +50,8 @@
       "task_title": "게임 구현",
       "selection_rationale": "조사 결과를 코드로 옮기는 전담 구현 트랙이 필요합니다.",
       "provider_agent_type": "worker",
-      "developer_instructions": ".rufusagent/game-spec.md를 기준으로 index.html을 구현하세요.",
-      "model": "gpt-5.4",
+      "developer_instructions": ".rufusagent/game-spec.md를 기준으로 index.html에 게임을 구현하세요.",
+      "model": "gpt-5.5",
       "model_reasoning_effort": "medium",
       "sandbox_mode": "workspace-write",
       "mcp_servers": [],
@@ -59,7 +59,7 @@
         "rufus-agent-runtime"
       ],
       "nickname_candidates": [
-        "구현자",
+        "구현",
         "게임개발"
       ],
       "read_paths": [
@@ -71,7 +71,7 @@
       "deny_paths": [],
       "operational_constraints": [
         "외부 CDN 없이 순수 HTML/CSS/JS만 사용합니다.",
-        "점수판, 재시작, 게임오버 상태를 포함합니다."
+        "점수, 재시작, 게임오버 상태를 포함합니다."
       ],
       "depends_on": [
         "game-research"

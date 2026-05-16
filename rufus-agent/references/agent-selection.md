@@ -80,19 +80,19 @@ These are policy defaults, not hard requirements.
 ## Default control profile
 
 - `lead`
-  - model: `gpt-5.4`
+  - model: `gpt-5.5`
   - reasoning: `high`
   - sandbox: `workspace-write`
 - `planner`
-  - model: `gpt-5.4`
+  - model: `gpt-5.5`
   - reasoning: `high`
   - sandbox: `read-only`
 - `research`
-  - model: `gpt-5.4-mini`
+  - model: `gpt-5.5`
   - reasoning: `medium`
   - sandbox: `read-only`
 - `implementer`
-  - model: `gpt-5.4`
+  - model: `gpt-5.5`
   - reasoning: `medium`
   - sandbox: `workspace-write`
 - `verifier`
@@ -100,7 +100,7 @@ These are policy defaults, not hard requirements.
   - reasoning: `medium`
   - sandbox: `workspace-write`
 - `reviewer`
-  - model: `gpt-5.4`
+  - model: `gpt-5.5`
   - reasoning: `high`
   - sandbox: `read-only`
 - `docs`
@@ -108,7 +108,7 @@ These are policy defaults, not hard requirements.
   - reasoning: `medium`
   - sandbox: `workspace-write`
 - `refactor`
-  - model: `gpt-5.4`
+  - model: `gpt-5.5`
   - reasoning: `medium`
   - sandbox: `workspace-write`
 - `ops`
@@ -127,6 +127,39 @@ For all sub-agents by default:
 - `skills_config`: include `rufus-agent-runtime`
 - `nickname_candidates`: derive from role label or execution class
 - `mcp_servers`: keep minimal; add only when task scope truly needs them
+
+## Model and reasoning policy
+
+Use `gpt-5.5` as the quality baseline for agents that make or judge important
+technical decisions. Use `gpt-5.4-mini` only for bounded, low-risk support work
+where speed and token cost matter more than deep judgment.
+
+Model defaults:
+
+- Use `gpt-5.5` for `lead`, `planner`, `research`, `implementer`, `reviewer`,
+  and `refactor`.
+- Use `gpt-5.4-mini` for routine `verifier`, `docs`, `ops`, and `general`
+  agents when their job is bounded and mostly mechanical.
+- Promote any mini profile to `gpt-5.5` when the task involves ambiguous
+  requirements, cross-module behavior, production release risk, security,
+  data loss, migration, or hard-to-reproduce debugging.
+
+Reasoning effort defaults:
+
+- `low`: simple extraction, formatting, inventory, or deterministic checks with
+  no code edits and no architectural decision.
+- `medium`: default for bounded implementation, routine verification, docs, UI
+  polish, and small refactors.
+- `high`: planning, architecture, complex debugging, reviewer roles,
+  cross-file changes, regression risk, data/schema changes, or final
+  integration decisions.
+- `xhigh`: exceptional cases only: large migrations, safety-critical changes,
+  unresolved contradictory requirements, or repeated failed debugging loops.
+
+Token-cost rule: do not raise both model size and reasoning effort unless the
+agent owns a decision whose cost of being wrong is materially higher than the
+extra tokens. Prefer `gpt-5.5` with `medium` for normal implementation, and
+reserve `gpt-5.5` with `high` for planning, review, debugging, or risky edits.
 
 ## Creative draft subagent fields
 
