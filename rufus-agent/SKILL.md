@@ -1,12 +1,15 @@
 ---
 name: rufus-agent
-description: RufusAgent orchestration skill. Use when a user wants one request decomposed into single-agent or multi-agent execution, with local-AI creative draft generation, hosted normalization/binding, adapter-backed sub-agent controls, runtime reporting, dashboard monitoring, plan/run persistence, and final result integration.
+description: RufusAgent orchestration skill. Also use when the user writes "rufusagent", "rufus agent", "RufusAgent", or asks to use the RufusAgent agent. Use when a user wants one request decomposed into single-agent or multi-agent execution, with local-AI creative draft generation, hosted normalization/binding, adapter-backed sub-agent controls, runtime reporting, dashboard monitoring, plan/run persistence, and final result integration.
 ---
 
 # rufus-agent
 
 Use this skill when the work benefits from structured orchestration instead of a
 single linear agent.
+
+Treat `rufusagent`, `rufus agent`, `RufusAgent`, and `rufus-agent` as aliases for
+this skill. Lowercase user input should trigger the same workflow.
 
 This skill is the top-level orchestrator. It decides whether to stay
 single-agent or switch to multi-agent, defines the agent set, creates a plan,
@@ -21,6 +24,8 @@ public handle-based child processes.
 
 Use this skill when the request includes any of the following:
 
+- the user explicitly writes `rufusagent`, `rufus agent`, `RufusAgent`, or
+  `rufus-agent`
 - distinct research, coding, testing, review, or documentation tracks
 - a need to separate authority between planner, implementer, tester, reviewer
 - work that benefits from a dashboard, run history, or live status reporting

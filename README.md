@@ -44,6 +44,18 @@ cp -R rufus-agent-runtime "$HOME/.codex/skills/"
 node "$HOME/.codex/skills/rufus-agent/scripts/portable-smoke-test.mjs"
 ```
 
+## 사용 방법
+
+Codex에서 `rufusagent`, `rufus agent`, `RufusAgent`, `rufus-agent` 중 어떤
+표기로 입력해도 RufusAgent workflow를 의미하도록 skill 설명에 alias를
+등록해 두었습니다.
+
+예시:
+
+```text
+rufusagent로 이 기능 개발을 분석, 구현, 검증 agent로 나눠서 진행해줘.
+```
+
 ## 검증
 
 레포지토리 루트에서 아래 명령을 실행합니다.
