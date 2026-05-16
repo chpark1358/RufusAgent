@@ -57,6 +57,42 @@ const WORKSPACE_CONTEXT = {
 const SERVER_WORKSPACE_ROOT = BINDING.workspace_root ?? process.cwd();
 const EXPOSE_BINDING_PATHS = process.env.RUFUS_AGENT_EXPOSE_PATHS === "1";
 const ADAPTER_DEFAULTS = defaultAdapterConfig({ workspaceRoot: BINDING.workspace_root ?? process.cwd() });
+const PLAN_SCHEMA_FIELDS = new Set([
+  "plan_id",
+  "plan_title",
+  "workspace_id",
+  "workspace_root",
+  "request_summary",
+  "preferred_language",
+  "single_or_multi",
+  "multi_agent_beneficial",
+  "recommendation_summary",
+  "operator_message",
+  "dashboard_url",
+  "authoritative_db_path",
+  "agents",
+  "tasks",
+  "dependency_edges",
+  "approval_status",
+  "dashboard_approval_status",
+  "terminal_confirmation_status",
+  "terminal_confirmation_required",
+  "latest_editor",
+  "recommendation_reasons",
+  "planning_mode",
+  "planning_backend",
+  "planning_driver",
+  "planner_selection_source",
+  "remote_config_detected",
+  "remote_config_complete",
+  "remote_config_conflict_reason",
+  "planning_model",
+  "created_at",
+  "updated_at",
+  "context_version",
+  "effective_max_threads",
+  "effective_max_depth"
+]);
 
 const PROVIDER_COMPATIBLE_FIELDS = [
   "provider_agent_type",
@@ -763,10 +799,16 @@ function pathSegment(url, index) {
   return decodeURIComponent(url.pathname.split("/")[index] ?? "");
 }
 
+function stripPlanViewFields(plan) {
+  return Object.fromEntries(
+    Object.entries(plan ?? {}).filter(([key]) => PLAN_SCHEMA_FIELDS.has(key))
+  );
+}
+
 function toEditablePlan(currentPlan, draftPlan) {
   const mergedPlan = {
-    ...currentPlan,
-    ...draftPlan,
+    ...stripPlanViewFields(currentPlan),
+    ...stripPlanViewFields(draftPlan),
     agents: Array.isArray(draftPlan.agents) ? draftPlan.agents : currentPlan.agents,
     tasks: Array.isArray(draftPlan.tasks) ? draftPlan.tasks : currentPlan.tasks,
     dependency_edges: Array.isArray(draftPlan.dependency_edges) ? draftPlan.dependency_edges : currentPlan.dependency_edges

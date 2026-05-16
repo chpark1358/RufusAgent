@@ -42161,7 +42161,7 @@ function App() {
     /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(CssBaseline_default, {}),
     /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(AppBar_default, { position: "sticky", color: "inherit", elevation: 0, sx: { backdropFilter: "blur(14px)", backgroundColor: "rgba(255, 255, 255, 0.82)", borderBottom: "1px solid rgba(15, 23, 42, 0.08)" }, children: /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(Toolbar_default, { sx: { gap: 2, alignItems: "center", justifyContent: "space-between" }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(Box_default, { sx: { minWidth: 0 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Typography_default, { variant: "overline", color: "text.secondary", sx: { letterSpacing: "0.08em" }, children: t("\uC18C\uB180 \uBA40\uD2F0\uC5D0\uC774\uC804\uD2B8 \uB300\uC2DC\uBCF4\uB4DC", "RufusAgent Dashboard") }),
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Typography_default, { variant: "overline", color: "text.secondary", sx: { letterSpacing: "0.08em" }, children: t("RufusAgent \uB300\uC2DC\uBCF4\uB4DC", "RufusAgent Dashboard") }),
         /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           Typography_default,
           {
